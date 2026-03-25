@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { socketService } from '@sketch-battle/services';
-import { LandingView } from '../views/LandingView.js';
-import { BoardView } from '../views/BoardView.js';
+import { LandingPage } from '../pages/LandingPage.js';
+import { BoardPage } from '../pages/BoardPage.js';
 
 export function App() {
   useEffect(() => {
@@ -12,8 +12,8 @@ export function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingView />} />
-      <Route path="/board/:id" element={<BoardView />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/board/:id" element={<BoardPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

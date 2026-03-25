@@ -4,7 +4,7 @@ import { useBoardStore } from '@sketch-battle/hooks';
 import { Canvas } from '../components/Canvas.js';
 import { Logo, RoomCodeBadge, MemberCard, Button } from '@sketch-battle/ui';
 
-export function BoardView() {
+export function BoardPage() {
   const { boardState, messages, currentMember } = useBoardStore();
   const [chatMessage, setChatMessage] = useState('');
 

@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useBoardStore } from '@sketch-battle/hooks';
 import { LandingHero } from '../components/landing/LandingHero.js';
 import { BoardAccessCard } from '../components/landing/BoardAccessCard.js';
-import { FeatureGrid } from '../components/landing/FeatureGrid.js';
 
-export function LandingView() {
+export function LandingPage() {
   const navigate = useNavigate();
   const { isJoined, boardState } = useBoardStore();
 
@@ -30,7 +29,7 @@ export function LandingView() {
       </div>
 
       <p className="relative z-10 pb-8 mt-auto text-[10px] font-semibold text-slate-500 uppercase tracking-[0.4em]">
-        SketchBoard &copy; 2024
+        SketchBoard &copy; {new Date().getFullYear()}
       </p>
     </div>
   );
