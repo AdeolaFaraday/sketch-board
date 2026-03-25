@@ -2,7 +2,7 @@ import { useBoardStore } from '@sketch-battle/hooks';
 import { socketService } from '@sketch-battle/services';
 import { Logo, RoomCodeBadge, MemberCard, Button } from '@sketch-battle/ui';
 
-export function LobbyView() {
+export function LobbyPage() {
   const { boardState, currentMember } = useBoardStore();
   const members = boardState?.members ?? [];
   const roomCode = boardState?.roomCode ?? '---';

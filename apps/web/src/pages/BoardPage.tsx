@@ -4,7 +4,7 @@ import { useBoardStore } from '@sketch-battle/hooks';
 import { Canvas } from '../components/Canvas.js';
 import { Logo, RoomCodeBadge, MemberCard, Button } from '@sketch-battle/ui';
 
-export function BoardView() {
+export function BoardPage() {
   const { boardState, messages, currentMember } = useBoardStore();
   const [chatMessage, setChatMessage] = useState('');
 
@@ -108,8 +108,8 @@ export function BoardView() {
                       </span>
                     </div>
                     <div className={`p-3 rounded-2xl text-xs leading-relaxed ${msg.senderId === currentMember?.id
-                        ? 'bg-blue-600/10 border border-blue-500/20 text-blue-100'
-                        : 'bg-slate-800/80 border border-slate-700/50 text-slate-300'
+                      ? 'bg-blue-600/10 border border-blue-500/20 text-blue-100'
+                      : 'bg-slate-800/80 border border-slate-700/50 text-slate-300'
                       }`}>
                       {msg.text}
                     </div>

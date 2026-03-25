@@ -21,11 +21,17 @@
     "customConditions": ["@org/source"],
     "paths": {
       "@sketch-battle/types": ["libs/types/src/index.ts"],
+      "@sketch-battle/types/*": ["libs/types/src/*"],
       "@sketch-battle/utils": ["libs/utils/src/index.ts"],
+      "@sketch-battle/utils/*": ["libs/utils/src/*"],
       "@sketch-battle/board-logic": ["libs/board-logic/src/index.ts"],
+      "@sketch-battle/board-logic/*": ["libs/board-logic/src/*"],
       "@sketch-battle/ui": ["libs/ui/src/index.ts"],
+      "@sketch-battle/ui/*": ["libs/ui/src/*"],
       "@sketch-battle/hooks": ["libs/hooks/src/index.ts"],
-      "@sketch-battle/services": ["libs/services/src/index.ts"]
+      "@sketch-battle/hooks/*": ["libs/hooks/src/*"],
+      "@sketch-battle/services": ["libs/services/src/index.ts"],
+      "@sketch-battle/services/*": ["libs/services/src/*"]
     }
   }
 }

@@ -8,10 +8,10 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
-    "baseUrl": ".",
+    "baseUrl": "../../",
     "paths": {
-      "@sketch-battle/types": ["../../libs/types/src/index.ts"],
-      "@sketch-battle/hooks": ["../../libs/hooks/src/index.ts"]
+      "@sketch-battle/types": ["libs/types/src/index.ts"],
+      "@sketch-battle/hooks": ["libs/hooks/src/index.ts"]
     }
   },
   "files": [],

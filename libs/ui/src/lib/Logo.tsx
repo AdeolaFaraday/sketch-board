@@ -13,7 +13,7 @@ export function Logo({ size = 'md' }: LogoProps) {
     <span
       className={`font-black tracking-tighter ${sizeMap[size]} text-white select-none leading-none`}
     >
-      SKETCH<span className="text-blue-500">BATTLE</span>
+      SKETCH<span className="text-blue-500">BOARD</span>
     </span>
   );
 }

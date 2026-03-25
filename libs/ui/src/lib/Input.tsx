@@ -6,35 +6,36 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
 }
 
-export function Input({ label, error, icon, className = '', id, ...rest }: InputProps) {
-  const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-');
-  return (
-    <div className="flex flex-col gap-1.5 w-full">
-      {label && (
-        <label
-          htmlFor={inputId}
-          className="text-xs font-semibold uppercase tracking-widest text-slate-400"
-        >
-          {label}
-        </label>
-      )}
-      <div className="relative flex items-center">
-        {icon && (
-          <span className="absolute left-4 text-slate-500 pointer-events-none">
-            {icon}
-          </span>
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ label, error, icon, className = '', id, ...rest }, ref) => {
+    const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-');
+    return (
+      <div className="flex flex-col gap-1.5 w-full">
+        {label && (
+          <label
+            htmlFor={inputId}
+            className="text-[10px] font-semibold uppercase tracking-widest text-slate-400/90 ml-1"
+          >
+            {label}
+          </label>
         )}
-        <input
-          id={inputId}
-          className={`w-full bg-slate-800 border ${
-            error ? 'border-red-500' : 'border-slate-700'
-          } rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150 ${
-            icon ? 'pl-11' : ''
-          } ${className}`}
-          {...rest}
-        />
+        <div className="relative flex items-center">
+          {icon && (
+            <span className="absolute left-4 text-slate-500 pointer-events-none text-sm">
+              {icon}
+            </span>
+          )}
+          <input
+            id={inputId}
+            ref={ref}
+            className={`w-full bg-[#0f172a]/60 shadow-inner border ${error ? 'border-red-500/50' : 'border-white/[0.04]'
+              } rounded-[16px] px-5 py-3.5 text-[14px] text-white placeholder-slate-600 focus:outline-none focus:bg-[#1e293b]/50 focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 ${icon ? 'pl-11' : ''
+              } ${className}`}
+            {...rest}
+          />
+        </div>
+        {error && <p className="text-xs text-red-500/90 mt-1 ml-1">{error}</p>}
       </div>
-      {error && <p className="text-xs text-red-400 mt-0.5">{error}</p>}
-    </div>
-  );
-}
+    );
+  }
+);
