@@ -2,5 +2,30 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./apps/web"
+    },
+    {
+      "path": "./apps/server"
+    },
+    {
+      "path": "./libs/types"
+    },
+    {
+      "path": "./libs/services"
+    },
+    {
+      "path": "./libs/hooks"
+    },
+    {
+      "path": "./libs/utils"
+    },
+    {
+      "path": "./libs/board-logic"
+    },
+    {
+      "path": "./libs/ui"
+    }
+  ]
 }

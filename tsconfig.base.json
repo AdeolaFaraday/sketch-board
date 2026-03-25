@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
     "composite": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
@@ -16,6 +18,14 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"]
+    "customConditions": ["@org/source"],
+    "paths": {
+      "@sketch-battle/types": ["libs/types/src/index.ts"],
+      "@sketch-battle/utils": ["libs/utils/src/index.ts"],
+      "@sketch-battle/board-logic": ["libs/board-logic/src/index.ts"],
+      "@sketch-battle/ui": ["libs/ui/src/index.ts"],
+      "@sketch-battle/hooks": ["libs/hooks/src/index.ts"],
+      "@sketch-battle/services": ["libs/services/src/index.ts"]
+    }
   }
 }

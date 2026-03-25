@@ -1,0 +1,19 @@
+{
+  "name": "board-logic",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/board-logic/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/board-logic",
+        "main": "libs/board-logic/src/index.ts",
+        "tsConfig": "libs/board-logic/tsconfig.lib.json",
+        "assets": ["libs/board-logic/*.md"]
+      }
+    }
+  }
+}
