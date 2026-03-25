@@ -1,10 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "types": ["node"]
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "types": ["node", "@nx/react/typings/cssmodule.d.ts"]
   },
   "exclude": [
     "jest.config.ts",
@@ -22,8 +22,7 @@
     "src/**/*.js",
     "src/**/*.jsx",
     "src/**/*.ts",
-    "src/**/*.tsx",
-    "../../node_modules/@nx/react/typings/*.d.ts"
+    "src/**/*.tsx"
   ],
   "references": [
     {

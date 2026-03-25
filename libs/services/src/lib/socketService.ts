@@ -5,7 +5,7 @@ import { BoardState, Member, Message, DrawingStroke } from '@sketch-battle/types
 class SocketService {
   private socket: Socket | null = null;
 
-  connect(url: string = 'http://localhost:3000') {
+  connect(url = 'http://localhost:3000') {
     this.socket = io(url);
 
     this.socket.on('board_updated', (boardState: BoardState) => {

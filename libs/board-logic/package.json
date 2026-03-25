@@ -1,5 +1,5 @@
 {
-  "name": "@sketch-battle/game",
+  "name": "@sketch-battle/board-logic",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -15,6 +15,7 @@
     }
   },
   "dependencies": {
+    "@sketch-battle/types": "workspace:*",
     "tslib": "^2.3.0"
   }
 }

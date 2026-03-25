@@ -1,1 +1,1 @@
-export * from './lib/socketService.js';
+export * from './lib/socketService';

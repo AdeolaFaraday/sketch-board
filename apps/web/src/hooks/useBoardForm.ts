@@ -44,7 +44,6 @@ export function useBoardForm() {
   const onSubmit = (data: FormData) => {
     setLoading(true);
     socketService.joinBoard(data.name.trim(), tab === 'join' ? data.roomCode?.trim() : undefined);
-    
     // Safety timeout
     setTimeout(() => setLoading(false), 3000);
   };

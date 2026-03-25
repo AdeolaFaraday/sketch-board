@@ -9,6 +9,18 @@ module.exports = {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
+  resolve: {
+    alias: {
+      '@sketch-battle/utils': join(__dirname, '../../libs/utils/src/index.ts'),
+      '@sketch-battle/board-logic': join(__dirname, '../../libs/board-logic/src/index.ts'),
+      '@sketch-battle/types': join(__dirname, '../../libs/types/src/index.ts')
+    },
+    extensionAlias: {
+      '.js': ['.ts', '.tsx', '.js'],
+      '.jsx': ['.tsx', '.jsx'],
+      '.mjs': ['.mts', '.mjs']
+    }
+  },
   plugins: [
     new NxAppWebpackPlugin({
       target: 'node',
