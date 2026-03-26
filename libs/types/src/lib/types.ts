@@ -15,6 +15,7 @@ export interface Point {
 }
 
 export interface DrawingStroke {
+  id: string;
   points: Point[];
   color: string;
   width: number;

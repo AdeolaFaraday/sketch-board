@@ -5,22 +5,30 @@ interface UseCanvasOptions {
   strokes: DrawingStroke[];
   color: string;
   width: number;
+  activeTool: 'pen' | 'eraser' | 'line';
   isReadOnly?: boolean;
   onStrokeEnd?: (stroke: DrawingStroke) => void;
   onDrawSegment?: (segment: DrawingStroke) => void;
+  onStrokeDelete?: (strokeId: string) => void;
 }
 
 export function useCanvas({
   strokes,
   color,
-  width,
+  width: fixedWidth, // Renaming internally to avoid confusion
+  activeTool,
   isReadOnly = false,
   onStrokeEnd,
   onDrawSegment,
+  onStrokeDelete,
 }: UseCanvasOptions) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  
+  const currentStrokeId = useRef<string | null>(null);
+
+  // Use a slightly larger radius for the eraser to feel better
+  const eraserRadius = activeTool === 'eraser' ? 16 : fixedWidth / 2;
+
   // Keep track of points in the current active stroke locally
   const currentStrokePoints = useRef<Point[]>([]);
   const lastPoint = useRef<Point | null>(null);
@@ -28,16 +36,35 @@ export function useCanvas({
   // Helper to calculate coordinates relative to the canvas element
   const getCoordinates = useCallback((e: React.MouseEvent | React.TouchEvent): Point | null => {
     if (!canvasRef.current) return null;
-    
+
     const rect = canvasRef.current.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
+    const clientX = 'touches' in e ? (e as React.TouchEvent).touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientY = 'touches' in e ? (e as React.TouchEvent).touches[0].clientY : (e as React.MouseEvent).clientY;
+
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top,
+      x: (clientX - rect.left) / rect.width,
+      y: (clientY - rect.top) / rect.height,
     };
   }, []);
+
+  // Helper to find a stroke that contains a point within a certain radius
+  const findIntersectingStroke = useCallback((point: Point, radius: number): DrawingStroke | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+
+    // Search backwards to delete the top-most stroke first
+    for (let i = strokes.length - 1; i >= 0; i--) {
+      const stroke = strokes[i];
+      for (const p of stroke.points) {
+        // Scale both points to absolute pixels for accurate distance check
+        const absP = { x: p.x * canvas.width, y: p.y * canvas.height };
+        const absPoint = { x: point.x * canvas.width, y: point.y * canvas.height };
+        const dist = Math.sqrt(Math.pow(absP.x - absPoint.x, 2) + Math.pow(absP.y - absPoint.y, 2));
+        if (dist <= radius + 4) return stroke; // +4 padding for better UX
+      }
+    }
+    return null;
+  }, [strokes]);
 
   // Main drawing function that renders all strokes
   const redraw = useCallback(() => {
@@ -51,31 +78,35 @@ export function useCanvas({
     ctx.lineJoin = 'round';
 
     const allStrokes = [...strokes];
-    
+
     // Also draw the current live points that haven't been "sent" yet if any
-    if (currentStrokePoints.current.length > 1) {
+    if (currentStrokePoints.current.length > 1 && currentStrokeId.current) {
       allStrokes.push({
+        id: currentStrokeId.current,
         points: currentStrokePoints.current,
         color,
-        width,
+        width: fixedWidth,
         memberId: 'local'
       });
     }
 
     allStrokes.forEach((stroke) => {
       if (stroke.points.length < 2) return;
-      
+
       ctx.beginPath();
       ctx.strokeStyle = stroke.color;
       ctx.lineWidth = stroke.width;
-      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+      
+      const p0 = stroke.points[0];
+      ctx.moveTo(p0.x * canvas.width, p0.y * canvas.height);
 
       for (let i = 1; i < stroke.points.length; i++) {
-        ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+        const p = stroke.points[i];
+        ctx.lineTo(p.x * canvas.width, p.y * canvas.height);
       }
       ctx.stroke();
     });
-  }, [strokes, color, width]);
+  }, [strokes, color, fixedWidth]);
 
   // Handle initialization and resizing
   useEffect(() => {
@@ -94,7 +125,7 @@ export function useCanvas({
     resize();
     const observer = new ResizeObserver(resize);
     if (canvas.parentElement) observer.observe(canvas.parentElement);
-    
+
     return () => observer.disconnect();
   }, [redraw]);
 
@@ -110,51 +141,79 @@ export function useCanvas({
     if (!point) return;
 
     setIsDrawing(true);
+
+    if (activeTool === 'eraser') {
+      const target = findIntersectingStroke(point, eraserRadius);
+      if (target && target.id && onStrokeDelete) {
+        onStrokeDelete(target.id);
+      }
+      return;
+    }
+    // Robust UUID fallback
+    currentStrokeId.current = typeof crypto.randomUUID === 'function' 
+      ? crypto.randomUUID() 
+      : Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
+      
     lastPoint.current = point;
     currentStrokePoints.current = [point];
-  }, [isReadOnly, getCoordinates]);
+  }, [isReadOnly, activeTool, getCoordinates, findIntersectingStroke, eraserRadius, onStrokeDelete]);
 
   const draw = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawing || isReadOnly || !lastPoint.current) return;
+    if (!isDrawing || isReadOnly) return;
+
     const point = getCoordinates(e);
     if (!point) return;
 
-    // Create a segment for real-time sync
-    const segment: DrawingStroke = {
-      points: [lastPoint.current, point],
-      color,
-      width,
-      memberId: '' // Will be filled by the sender
-    };
+    if (activeTool === 'eraser') {
+      // Check for intersections as we move
+      const target = findIntersectingStroke(point, eraserRadius);
+      if (target && target.id && onStrokeDelete) {
+        onStrokeDelete(target.id);
+      }
+      return;
+    }
 
-    // Emit the segment to the socket for real-time visibility
-    onDrawSegment?.(segment);
+    if (!lastPoint.current || !currentStrokeId.current) return;
 
-    // Update local state
-    currentStrokePoints.current.push(point);
+    if (activeTool === 'line') {
+      // For line tool, we only keep the start and current point
+      currentStrokePoints.current = [currentStrokePoints.current[0], point];
+    } else {
+      // Create a segment for real-time sync (only for freehand)
+      const segment: DrawingStroke = {
+        id: currentStrokeId.current,
+        points: [lastPoint.current, point],
+        color,
+        width: fixedWidth,
+        memberId: '' // Will be filled by the sender
+      };
+      onDrawSegment?.(segment);
+      currentStrokePoints.current.push(point);
+    }
+
     lastPoint.current = point;
-    
-    // Trigger a redraw to show the line as we move
     redraw();
-  }, [isDrawing, isReadOnly, color, width, getCoordinates, onDrawSegment, redraw]);
+  }, [isDrawing, isReadOnly, activeTool, color, fixedWidth, getCoordinates, findIntersectingStroke, eraserRadius, onStrokeDelete, onDrawSegment, redraw]);
 
   const stopDrawing = useCallback(() => {
     if (!isDrawing) return;
-    
-    if (onStrokeEnd && currentStrokePoints.current.length > 0) {
+
+    if (currentStrokeId.current && onStrokeEnd && currentStrokePoints.current.length > 1) {
       onStrokeEnd({
+        id: currentStrokeId.current,
         points: currentStrokePoints.current,
         color,
-        width,
+        width: fixedWidth,
         memberId: ''
       });
     }
 
     setIsDrawing(false);
+    currentStrokeId.current = null;
     lastPoint.current = null;
     currentStrokePoints.current = [];
     redraw();
-  }, [isDrawing, color, width, onStrokeEnd, redraw]);
+  }, [isDrawing, color, fixedWidth, onStrokeEnd, redraw]);
 
   return {
     canvasRef,

@@ -6,17 +6,30 @@ type ActiveTool = 'pen' | 'eraser' | 'line';
 interface BoardCanvasProps {
   strokes: DrawingStroke[];
   activeTool: ActiveTool;
+  strokeColor: string;
+  strokeWidth: number;
   onStrokeEnd: (stroke: DrawingStroke) => void;
   onDrawSegment: (segment: DrawingStroke) => void;
+  onStrokeDelete: (strokeId: string) => void;
 }
 
-export function BoardCanvas({ strokes, activeTool, onStrokeEnd, onDrawSegment }: BoardCanvasProps) {
+export function BoardCanvas({
+  strokes,
+  activeTool,
+  strokeColor,
+  strokeWidth,
+  onStrokeEnd,
+  onDrawSegment,
+  onStrokeDelete,
+}: BoardCanvasProps) {
   const isEraser = activeTool === 'eraser';
 
   return (
     /* Outer container: dot-grid background */
     <div
-      className="flex-1 min-h-0 relative rounded-2xl overflow-hidden"
+      className={`flex-1 min-h-0 relative rounded-2xl overflow-hidden touch-none ${
+        isEraser ? 'cursor-cell' : 'cursor-crosshair'
+      }`}
       style={{
         background: '#0d1424',
         backgroundImage:
@@ -28,11 +41,13 @@ export function BoardCanvas({ strokes, activeTool, onStrokeEnd, onDrawSegment }:
       <div className="absolute inset-3 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/[0.06]">
         <Canvas
           strokes={strokes}
+          activeTool={activeTool}
           isReadOnly={false}
-          color={isEraser ? '#ffffff' : '#000000'}
-          width={isEraser ? 18 : 3}
+          color={isEraser ? '#ffffff' : strokeColor}
+          width={isEraser ? 24 : strokeWidth}
           onStrokeEnd={onStrokeEnd}
           onDrawSegment={onDrawSegment}
+          onStrokeDelete={onStrokeDelete}
         />
       </div>
     </div>
