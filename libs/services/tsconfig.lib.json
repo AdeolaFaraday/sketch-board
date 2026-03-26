@@ -6,7 +6,8 @@
     "declaration": true,
     "lib": ["dom", "esnext"],
     "types": [
-      "node"
+      "node",
+      "vite/client"
     ]
   },
   "include": [

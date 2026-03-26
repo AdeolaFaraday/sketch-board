@@ -7,9 +7,11 @@ class SocketService {
 
   connect(url?: string) {
     if (this.socket?.connected) return;
-    
-    // Default to current host but on port 3000 for the server
-    let connectionUrl = url;
+
+    // Dynamic URL handling for deployment
+    const envUrl = import.meta.env['VITE_SOCKET_URL'];
+    let connectionUrl = url || envUrl;
+
     if (!connectionUrl && typeof window !== 'undefined') {
       const host = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
       connectionUrl = `${window.location.protocol}//${host}:3000`;

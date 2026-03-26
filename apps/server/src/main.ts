@@ -8,7 +8,10 @@ import { createInitialBoardState } from '@sketch-battle/board-logic';
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: '*' },
+  cors: { 
+    origin: process.env.CLIENT_URL || '*',
+    methods: ["GET", "POST"]
+  },
 });
 
 const boards: Record<string, BoardState> = {};
