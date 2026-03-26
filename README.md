@@ -16,11 +16,6 @@ Distributed teams often struggle with the friction of sharing quick visual conce
 - **Native Sharing**: Integration with the Web Share API for native mobile sharing.
 - **Safety**: Guarded operations like "Clear Board" to prevent accidental data loss.
 
-## 2. Visual Overview
-> [!TIP]
-> **[ ATTACH SYSTEM SCREENSHOT HERE ]**  
-> *(Showcase the desktop dashboard and the mobile drawer system side-by-side.)*
-
 ## 3. Architecture
 The project leverages an **Nx Monorepo** for strict separation of concerns and high code reusability.
 
