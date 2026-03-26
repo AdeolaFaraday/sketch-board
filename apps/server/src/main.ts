@@ -49,6 +49,7 @@ io.on('connection', (socket: Socket) => {
 
     io.to(code).emit('board_updated', boards[code]);
     io.to(code).emit('member_list_updated', boards[code].members);
+    socket.emit('joined', member);
 
     // System message
     const joinMessage: Message = {
@@ -81,10 +82,37 @@ io.on('connection', (socket: Socket) => {
   socket.on('draw_event', (stroke: DrawingStroke) => {
     const code = memberBoards[socket.id];
     if (code && boards[code]) {
-      // Persist the stroke in the server state
-      boards[code].strokes.push(stroke);
-      // Broadcast to other members
+      // Ensure stroke has an ID
+      if (!stroke.id) {
+        stroke.id = Math.random().toString(36).substring(2, 11);
+      }
+
+      // Upsert by ID: if stroke with this ID already exists, replace it.
+      // This handles "segment" updates where the client is streaming points.
+      const existingIdx = boards[code].strokes.findIndex(s => s.id === stroke.id);
+      if (existingIdx >= 0) {
+        boards[code].strokes[existingIdx] = stroke;
+      } else {
+        boards[code].strokes.push(stroke);
+      }
+
       socket.to(code).emit('draw_event', stroke);
+    }
+  });
+
+  socket.on('delete_stroke', (strokeId: string) => {
+    const code = memberBoards[socket.id];
+    if (code && boards[code] && strokeId) {
+      boards[code].strokes = boards[code].strokes.filter((s) => s.id !== strokeId);
+      io.to(code).emit('stroke_deleted', strokeId);
+    }
+  });
+
+  socket.on('clear_board', () => {
+    const code = memberBoards[socket.id];
+    if (code && boards[code]) {
+      boards[code].strokes = [];
+      io.to(code).emit('board_cleared');
     }
   });
 

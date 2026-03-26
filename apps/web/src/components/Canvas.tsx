@@ -4,8 +4,10 @@ import { useCanvas } from '../hooks/useCanvas';
 
 interface CanvasProps {
   strokes?: DrawingStroke[];
+  activeTool?: 'pen' | 'eraser' | 'line';
   onStrokeEnd?: (stroke: DrawingStroke) => void;
   onDrawSegment?: (segment: DrawingStroke) => void;
+  onStrokeDelete?: (strokeId: string) => void;
   isReadOnly?: boolean;
   color?: string;
   width?: number;
@@ -13,8 +15,10 @@ interface CanvasProps {
 
 export const Canvas: React.FC<CanvasProps> = ({
   strokes = [],
+  activeTool = 'pen',
   onStrokeEnd,
   onDrawSegment,
+  onStrokeDelete,
   isReadOnly = false,
   color = '#000000',
   width = 3,
@@ -23,9 +27,11 @@ export const Canvas: React.FC<CanvasProps> = ({
     strokes,
     color,
     width,
+    activeTool,
     isReadOnly,
     onStrokeEnd,
     onDrawSegment,
+    onStrokeDelete,
   });
 
   return (

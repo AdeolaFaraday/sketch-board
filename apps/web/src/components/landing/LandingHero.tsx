@@ -2,19 +2,24 @@ import { Logo } from '@sketch-battle/ui';
 
 export function LandingHero() {
   return (
-    <div className="flex flex-col items-center gap-8 mb-14 text-center">
+    <div className="flex flex-col items-center gap-6 sm:gap-8 mb-10 sm:mb-14 text-center w-full max-w-[95vw] sm:max-w-xl mx-auto">
       {/* Logo badge */}
-      <div className="inline-flex px-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl">
-        <Logo size="lg" />
+      <div className="inline-flex px-5 py-3 sm:px-6 sm:py-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl">
+        <div className="sm:hidden">
+          <Logo size="md" />
+        </div>
+        <div className="hidden sm:block">
+          <Logo size="lg" />
+        </div>
       </div>
 
       {/* Tagline */}
-      <div className="space-y-4 max-w-lg">
-        <h1 className="text-4xl font-bold text-white tracking-tight">
+      <div className="space-y-3 sm:space-y-4 px-4 sm:px-0">
+        <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
           Where teams think{' '}
           <span className="text-blue-400">visually</span>
         </h1>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
           A real-time collaborative whiteboard for modern teams. Sketch ideas, share boards, and build together — instantly.
         </p>
       </div>

@@ -17,7 +17,7 @@ export function BoardAccessCard() {
   } = useBoardForm();
 
   return (
-    <div className="relative z-10 w-full max-w-[420px] bg-[#0a0f1c]/70 backdrop-blur-2xl border border-white/[0.04] rounded-[32px] overflow-hidden shadow-[0_24px_64px_-16px_rgba(0,0,0,0.6)] mx-auto">
+    <div className="relative z-10 w-[90vw] max-w-[420px] bg-[#0a0f1c]/70 backdrop-blur-2xl border border-white/[0.04] rounded-[32px] overflow-hidden shadow-[0_24px_64px_-16px_rgba(0,0,0,0.6)] mx-auto">
       <Tabs
         options={tabOptions}
         activeTab={tab}

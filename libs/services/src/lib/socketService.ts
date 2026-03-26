@@ -4,6 +4,7 @@ import { BoardState, Member, Message, DrawingStroke } from '@sketch-battle/types
 
 class SocketService {
   private socket: Socket | null = null;
+  private _connectCallbacks: (() => void)[] = [];
 
   connect(url?: string) {
     if (this.socket?.connected) return;
@@ -25,6 +26,16 @@ class SocketService {
       reconnectionDelay: 1000,
     });
 
+    this.socket.on('connect', () => {
+      this._connectCallbacks.forEach((cb) => cb());
+      this._connectCallbacks = [];
+    });
+
+    this.socket.on('joined', (member: Member) => {
+      useBoardStore.getState().setCurrentMember(member);
+      useBoardStore.getState().setIsJoined(true);
+    });
+
     this.socket.on('board_updated', (boardState: BoardState) => {
       useBoardStore.getState().setBoardState(boardState);
     });
@@ -44,12 +55,32 @@ class SocketService {
       useBoardStore.getState().addStroke(stroke);
     });
 
+    this.socket.on('stroke_deleted', (strokeId: string) => {
+      useBoardStore.getState().deleteStroke(strokeId);
+    });
+
+    this.socket.on('board_cleared', () => {
+      useBoardStore.getState().clearStrokes();
+    });
+
     this.socket.on('session_started', () => {
       const state = useBoardStore.getState().boardState;
       if (state) {
         useBoardStore.getState().setBoardState({ ...state, status: 'ACTIVE' });
       }
     });
+  }
+
+  /** Call `cb` once when connected. Returns an unsubscribe function. */
+  onConnect(cb: () => void): () => void {
+    if (this.socket?.connected) {
+      cb();
+      return () => {};
+    }
+    this._connectCallbacks.push(cb);
+    return () => {
+      this._connectCallbacks = this._connectCallbacks.filter((fn) => fn !== cb);
+    };
   }
 
   joinBoard(memberName: string, roomCode?: string) {
@@ -67,6 +98,14 @@ class SocketService {
 
   sendMessage(text: string) {
     this.socket?.emit('send_message', text);
+  }
+
+  deleteStroke(strokeId: string) {
+    this.socket?.emit('delete_stroke', strokeId);
+  }
+
+  clearBoard() {
+    this.socket?.emit('clear_board');
   }
 
   onDrawEvent(callback: (stroke: DrawingStroke) => void) {
