@@ -14,7 +14,13 @@ export default defineConfig(() => ({
     port: 4200,
     host: 'localhost',
   },
-  plugins: [react(), nxViteTsPaths(), tailwind()],
+  plugins: [
+    react(), 
+    nxViteTsPaths({
+      debug: false,
+    }), 
+    tailwind()
+  ],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
