@@ -8,8 +8,8 @@
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -18,20 +18,13 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"],
     "paths": {
       "@sketch-battle/types": ["libs/types/src/index.ts"],
-      "@sketch-battle/types/*": ["libs/types/src/*"],
       "@sketch-battle/utils": ["libs/utils/src/index.ts"],
-      "@sketch-battle/utils/*": ["libs/utils/src/*"],
       "@sketch-battle/board-logic": ["libs/board-logic/src/index.ts"],
-      "@sketch-battle/board-logic/*": ["libs/board-logic/src/*"],
       "@sketch-battle/ui": ["libs/ui/src/index.ts"],
-      "@sketch-battle/ui/*": ["libs/ui/src/*"],
       "@sketch-battle/hooks": ["libs/hooks/src/index.ts"],
-      "@sketch-battle/hooks/*": ["libs/hooks/src/*"],
-      "@sketch-battle/services": ["libs/services/src/index.ts"],
-      "@sketch-battle/services/*": ["libs/services/src/*"]
+      "@sketch-battle/services": ["libs/services/src/index.ts"]
     }
   }
 }

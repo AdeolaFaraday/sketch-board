@@ -1,11 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "dist",
     "rootDir": "src",
     "declaration": true,
+    "lib": ["dom", "esnext"],
     "types": [
-      "node"
+      "node",
+      "vite/client"
     ]
   },
   "include": [

@@ -1,1 +1,1 @@
-export * from './lib/board-logic.js';
+export * from './lib/board-logic';

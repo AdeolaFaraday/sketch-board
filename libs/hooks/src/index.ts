@@ -1,1 +1,1 @@
-export * from './lib/boardStore.js';
+export * from './lib/boardStore';

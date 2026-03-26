@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../libs/*/src/**/*.{ts,tsx}";
 
 
 /* ── Custom Properties ────────────────────────────────── */

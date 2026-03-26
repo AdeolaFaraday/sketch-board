@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { BoardState, Member, Message, DrawingStroke } from '@sketch-battle/types';
@@ -8,7 +8,10 @@ import { createInitialBoardState } from '@sketch-battle/board-logic';
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: '*' },
+  cors: { 
+    origin: process.env.CLIENT_URL || '*',
+    methods: ["GET", "POST"]
+  },
 });
 
 const boards: Record<string, BoardState> = {};
@@ -77,7 +80,10 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('draw_event', (stroke: DrawingStroke) => {
     const code = memberBoards[socket.id];
-    if (code) {
+    if (code && boards[code]) {
+      // Persist the stroke in the server state
+      boards[code].strokes.push(stroke);
+      // Broadcast to other members
       socket.to(code).emit('draw_event', stroke);
     }
   });
