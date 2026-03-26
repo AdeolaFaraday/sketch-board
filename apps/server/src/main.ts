@@ -8,7 +8,7 @@ import { createInitialBoardState } from '@sketch-battle/board-logic';
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { 
+  cors: {
     origin: process.env.CLIENT_URL || '*',
     methods: ["GET", "POST"]
   },
@@ -25,7 +25,7 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('join_board', ({ roomCode, memberName }: { roomCode: string; memberName: string }) => {
     let code = roomCode?.toUpperCase();
-    
+
     if (!code) {
       code = generateRoomCode();
     }
@@ -49,7 +49,7 @@ io.on('connection', (socket: Socket) => {
 
     io.to(code).emit('board_updated', boards[code]);
     io.to(code).emit('member_list_updated', boards[code].members);
-    
+
     // System message
     const joinMessage: Message = {
       id: Math.random().toString(36).substr(2, 9),
@@ -60,7 +60,7 @@ io.on('connection', (socket: Socket) => {
       type: 'SYSTEM',
     };
     io.to(code).emit('new_message', joinMessage);
-    
+
     console.log(`Member ${memberName} joined board ${code}`);
   });
 
@@ -120,10 +120,10 @@ io.on('connection', (socket: Socket) => {
         if (member?.isHost && boards[code].members.length > 0) {
           boards[code].members[0].isHost = true;
         }
-        
+
         io.to(code).emit('board_updated', boards[code]);
         io.to(code).emit('member_list_updated', boards[code].members);
-        
+
         const leaveMessage: Message = {
           id: Math.random().toString(36).substr(2, 9),
           senderId: 'system',

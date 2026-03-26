@@ -5,26 +5,21 @@
     "rootDir": "src",
     "declaration": true,
     "lib": ["dom", "esnext"],
-    "types": [
-      "node",
-      "vite/client"
-    ]
+    "types": ["node", "vite/client"]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "jest.config.ts",
     "jest.config.cts",
     "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "src/**/*.ts"
   ],
   "references": [
     {
-      "path": "../types/tsconfig.lib.json"
+      "path": "../hooks/tsconfig.lib.json"
     },
     {
-      "path": "../hooks/tsconfig.lib.json"
+      "path": "../types/tsconfig.lib.json"
     }
   ]
 }
