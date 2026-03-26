@@ -1,4 +1,4 @@
-# SketchBoard 🎨🚀
+# SketchBoard
 
 SketchBoard is a high-performance, real-time collaborative whiteboard platform designed for distributed teams. Built with a modern **Nx monorepo** architecture, it enables instant visual communication through a seamless, low-latency drawing experience across all device types.
 
@@ -15,6 +15,11 @@ Distributed teams often struggle with the friction of sharing quick visual conce
 - **Smart Scaling**: Normalized (0.0 - 1.0) coordinate system for perfect cross-device alignment.
 - **Native Sharing**: Integration with the Web Share API for native mobile sharing.
 - **Safety**: Guarded operations like "Clear Board" to prevent accidental data loss.
+
+## 2. Visual Overview
+> [!TIP]
+> **[ ATTACH SYSTEM SCREENSHOT HERE ]**  
+> *(Showcase the desktop dashboard and the mobile drawer system side-by-side.)*
 
 ## 3. Architecture
 The project leverages an **Nx Monorepo** for strict separation of concerns and high code reusability.
