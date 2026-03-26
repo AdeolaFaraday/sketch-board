@@ -43,7 +43,13 @@ export function useBoardForm() {
 
   const onSubmit = (data: FormData) => {
     setLoading(true);
-    socketService.joinBoard(data.name.trim(), tab === 'join' ? data.roomCode?.trim() : undefined);
+    const name = data.name.trim();
+    const roomCode = tab === 'join' ? data.roomCode?.trim() : undefined;
+
+    // Persist name for auto-rejoin
+    localStorage.setItem('sketch_board_user_name', name);
+    
+    socketService.joinBoard(name, roomCode);
     // Safety timeout
     setTimeout(() => setLoading(false), 3000);
   };
