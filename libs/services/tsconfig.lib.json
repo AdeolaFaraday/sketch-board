@@ -12,14 +12,14 @@
     "jest.config.ts",
     "jest.config.cts",
     "src/**/*.spec.ts",
-    "src/**/*.ts"
+    "src/**/*.test.ts"
   ],
   "references": [
     {
-      "path": "../hooks/tsconfig.lib.json"
+      "path": "../types/tsconfig.lib.json"
     },
     {
-      "path": "../types/tsconfig.lib.json"
+      "path": "../hooks/tsconfig.lib.json"
     }
   ]
 }
