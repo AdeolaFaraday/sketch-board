@@ -33,7 +33,7 @@ export function BoardPage() {
   } = useBoardPage();
 
   return (
-    <div className="flex flex-col h-screen bg-slate-950 text-white overflow-hidden">
+    <div className="flex flex-col h-dvh bg-slate-950 text-white overflow-hidden">
       {/* Join modal for shared-link visitors */}
       {showJoinModal && (
         <JoinBoardModal roomCode={roomCode} onJoin={handleJoin} />

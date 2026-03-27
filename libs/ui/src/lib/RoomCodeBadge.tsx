@@ -18,9 +18,9 @@ export function RoomCodeBadge({ code }: RoomCodeBadgeProps) {
     <button
       onClick={handleCopy}
       title="Click to copy room code"
-      className="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-slate-500 rounded-xl px-4 py-2 transition-colors duration-150 group"
+      className="flex items-center gap-1.5 sm:gap-2 bg-slate-800 border border-slate-700 hover:border-slate-500 rounded-xl px-2.5 sm:px-4 py-2 transition-colors duration-150 group"
     >
-      <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mr-1">
+      <span className="hidden md:inline text-[10px] font-semibold uppercase tracking-widest text-slate-500 mr-1">
         Room
       </span>
       <span className="font-mono text-sm font-bold tracking-widest text-white uppercase">
