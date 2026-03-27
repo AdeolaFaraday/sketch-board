@@ -1,8 +1,8 @@
 export function FeatureGrid() {
   const features = [
-    { icon: '👥', label: 'Live Presence', desc: 'See cursors & actions instantly' },
-    { icon: '🪄', label: 'Smart Sketch', desc: 'Vector-based precision tools' },
-    { icon: '⚡', label: 'Zero Latency', desc: 'Powered by WebSockets' },
+    { icon: '', label: 'Live Presence', desc: 'See cursors & actions instantly' },
+    { icon: '', label: 'Smart Sketch', desc: 'Vector-based precision tools' },
+    { icon: '', label: 'Zero Latency', desc: 'Powered by WebSockets' },
   ];
 
   return (
