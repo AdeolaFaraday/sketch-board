@@ -29,7 +29,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             className={`w-full bg-[#0f172a]/60 shadow-inner border ${error ? 'border-red-500/50' : 'border-white/[0.06] hover:border-blue-500/30'
-              } rounded-[16px] px-5 py-3.5 text-[14px] text-white placeholder-slate-600 focus:outline-none focus:bg-[#1e293b]/50 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 ${icon ? 'pl-11' : ''
+              } rounded-[16px] px-5 py-3.5 text-[16px] text-white placeholder-slate-600 focus:outline-none focus:bg-[#1e293b]/50 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 ${icon ? 'pl-11' : ''
               } ${className}`}
             {...rest}
           />

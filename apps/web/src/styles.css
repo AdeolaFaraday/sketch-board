@@ -3,6 +3,10 @@
 
 
 /* ── Custom Properties ────────────────────────────────── */
+@theme {
+  --breakpoint-xs: 380px;
+}
+
 :root {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
